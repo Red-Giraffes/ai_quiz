@@ -10,7 +10,7 @@ let shuffledQuestions, currentQuestionIndex, score = 0;
 
 const questions = [
     {
-        question: 'What does AI stand for?',
+        question: 'VOT does AI stand for?',
         answers: [
             { text: 'Artificial Intelligence', correct: true },
             { text: 'Amazing Interface', correct: false },
