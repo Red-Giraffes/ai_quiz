@@ -8,8 +8,6 @@ const nextButton = document.getElementById('next');
 let shuffledQuestions, currentQuestionIndex, score = 0;
 
     
-];
-
 const questions = [
     {
         question: 'What does AI stand for?',
