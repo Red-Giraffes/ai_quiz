@@ -39,6 +39,19 @@ function startQuiz() {
     }
     // Optionally: remove all buttons or disable them to prevent multiple selections
 }
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    if (correct) {
+        score++;
+    }
+    // Once an answer is selected, disable all answer buttons to prevent multiple selections
+    Array.from(questionContainer.children).forEach(button => {
+        if (button.tagName === 'BUTTON') {
+            button.disabled = true;
+        }
+    });
+}
 
 function showQuestion(question) {
     questionContainer.innerHTML = ''; // clear previous content
