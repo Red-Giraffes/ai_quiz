@@ -5,18 +5,33 @@ const supabase = Supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 const questionContainer = document.getElementById('question-container');
 const nextButton = document.getElementById('next');
-let shuffledQuestions, currentQuestionIndex, score = 0;
+let currentQuestionIndex, score = 0;
 
 const questions = [
-    // ... [Your existing quiz questions here]
+    {
+        question: 'Who developed the GPT-4 model?',
+        answers: [
+            { text: 'Google', correct: false },
+            { text: 'Facebook', correct: false },
+            { text: 'OpenAI', correct: true },
+            { text: 'Microsoft', correct: false }
+        ]
+    },
+    //... [the rest of the questions here]
 ];
 
 // Function to start the quiz
 function startQuiz() {
     currentQuestionIndex = 0;
     nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
-        setNextQuestion();
+        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+        if (selectedAnswer) {
+            if (questions[currentQuestionIndex].answers[selectedAnswer.value].correct) {
+                score++;
+            }
+            currentQuestionIndex++;
+            setNextQuestion();
+        }
     });
     setNextQuestion();
 }
@@ -32,7 +47,10 @@ function setNextQuestion() {
 
 // Function to show the current question
 function showQuestion(question) {
-    // ... [Your existing logic to display questions and choices]
+    questionContainer.innerHTML = `<div>${question.question}</div>`;
+    question.answers.forEach((answer, index) => {
+        questionContainer.innerHTML += `<label><input type="radio" name="answer" value="${index}">${answer.text}</label>`;
+    });
 }
 
 // Function to end the quiz
