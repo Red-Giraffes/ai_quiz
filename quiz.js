@@ -1,6 +1,6 @@
 // Supabase Initialization
 const supabaseUrl = 'https://airfdancdzkaxebikanm.supabase.co';
-const supabaseAnonKey = '...';  // Make sure to have your actual Anon Key here
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpcmZkYW5jZHprYXhlYmlrYW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2NjQ0OTksImV4cCI6MjAwNzI0MDQ5OX0.GnIe2Zdg3d5Vv00a201j7GKilZ0pGicrcgDvRd5sPGM';  // Make sure to have your actual Anon Key here
 const { createClient } = window.supabase;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
