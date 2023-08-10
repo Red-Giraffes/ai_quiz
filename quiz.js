@@ -10,7 +10,7 @@ let shuffledQuestions, currentQuestionIndex, score = 0;
 
 const questions = [
     {
-        question: 'VOT does AI stand for?',
+        question: 'What does AI stand for?',
         answers: [
             { text: 'Artificial Intelligence', correct: true },
             { text: 'Amazing Interface', correct: false },
@@ -89,4 +89,31 @@ async function endQuiz() {
     document.getElementById("result").innerText = `Your score is: ${score}`;
 
     const username = prompt("Enter your name for the leaderboard:");
-    let { data, error } = await sup
+    let { data, error } = await supabase
+        .from('scores')
+        .insert([{ name: username, score: score }]);
+    if (error) {
+        console.error("Error inserting score:", error);
+    }
+    displayLeaderboard();
+}
+
+async function displayLeaderboard() {
+    let { data, error } = await supabase
+        .from('scores')
+        .select('*')
+        .order('score', { ascending: false })
+        .limit(50);
+    if (error) {
+        console.error("Error fetching leaderboard:", error);
+        return;
+    }
+    var leaderboardHtml = "<h2>Leaderboard</h2><ul>";
+    for (let i = 0; i < data.length; i++) {
+        leaderboardHtml += `<li>${data[i].name} - ${data[i].score}</li>`;
+    }
+    leaderboardHtml += "</ul>";
+    document.getElementById("leaderboard").innerHTML = leaderboardHtml;
+}
+
+startQuiz();
