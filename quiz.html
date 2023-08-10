@@ -18,44 +18,5 @@
     <div id="leaderboard"></div>
 
     <script src="quiz.js"></script>
-    <script>
-        const supabaseUrl = 'https://airfdancdzkaxebikanm.supabase.co';
-        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpcmZkYW5jZHprYXhlYmlrYW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2NjQ0OTksImV4cCI6MjAwNzI0MDQ5OX0.GnIe2Zdg3d5Vv00a201j7GKilZ0pGicrcgDvRd5sPGM';
-        const supabase = Supabase.createClient(supabaseUrl, supabaseAnonKey);
-
-        async function submitQuiz() {
-            // Assuming you've already calculated the score in your submitQuiz function
-            const username = prompt("Enter your name for the leaderboard:");
-            
-            let { data, error } = await supabase
-                .from('scores')
-                .insert([{ name: username, score: score }]);
-            
-            if (error) {
-                console.error("Error inserting score:", error);
-            }
-        }
-
-        async function displayLeaderboard() {
-            let { data, error } = await supabase
-                .from('scores')
-                .select('*')
-                .order('score', { ascending: false })
-                .limit(50);
-
-            if (error) {
-                console.error("Error fetching leaderboard:", error);
-                return;
-            }
-
-            var leaderboardHtml = "<h2>Leaderboard</h2><ul>";
-            for (let i = 0; i < data.length; i++) {
-                leaderboardHtml += `<li>${data[i].name} - ${data[i].score}</li>`;
-            }
-            leaderboardHtml += "</ul>";
-
-            document.getElementById("leaderboard").innerHTML = leaderboardHtml;
-        }
-    </script>
 </body>
 </html>
