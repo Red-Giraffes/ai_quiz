@@ -49,3 +49,20 @@ button:hover {
         font-size: 16px;
     }
 }
+.btn {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #f6f6f6;
+}
+
+.btn.selected {
+    background-color: #e0e0e0;  // Highlight color when the button is selected
+}
+
