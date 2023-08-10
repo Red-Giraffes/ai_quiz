@@ -12,7 +12,7 @@ const questions = [
     {
         question: 'What does AI stand for?',
         answers: [
-            { text: 'Artificial Intelligence, correct: true },
+            { text: 'Artificial Intelligence', correct: true },
             { text: 'Amazing Interface', correct: false },
             ...
         ]
