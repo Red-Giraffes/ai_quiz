@@ -7,18 +7,21 @@ const questionContainer = document.getElementById('question-container');
 const nextButton = document.getElementById('next');
 let shuffledQuestions, currentQuestionIndex, score = 0;
 
+    
+];
+
 const questions = [
     {
         question: 'What does AI stand for?',
         answers: [
-            { text: 'Artificial Intelligence', correct: true },
-            { text: 'Automated Ignition', correct: false },
-            { text: 'Active Interface', correct: false },
-            { text: 'Agriculture Industry', correct: false }
+            { text: 'Artificial Intelligence, correct: true },
+            { text: 'Amazing Interface', correct: false },
+            ...
         ]
     },
-    // Additional questions here
+    ...
 ];
+// Additional questions here
 
 // Function to start the quiz
 function startQuiz() {
