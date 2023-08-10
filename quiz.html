@@ -2,65 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Quiz</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Linking the CSS file -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/umd/supabase.min.js"></script>
 </head>
-
 <body>
-    <h1>AI Quiz</h1>
-
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name">
-    </div>
-    
-    <!-- Q1 -->
-    <div class="question">
-        <p>1. Who is considered the father of Artificial Intelligence?</p>
-        <input type="radio" name="q1" value="John McCarthy">John McCarthy<br>
-        <input type="radio" name="q1" value="Alan Turing">Alan Turing<br>
-        <input type="radio" name="q1" value="Bill Gates">Bill Gates<br>
-        <input type="radio" name="q1" value="Elon Musk">Elon Musk<br>
+    <div id="quiz-container">
+        <h1>AI Quiz</h1>
+        <div id="question-container"></div>
+        <button id="next">Next</button>
     </div>
 
-    <!-- Q2 -->
-    <div class="question">
-        <p>2. Which of these is NOT a type of Machine Learning?</p>
-        <input type="radio" name="q2" value="Unsupervised Learning">Unsupervised Learning<br>
-        <input type="radio" name="q2" value="Inverted Learning">Inverted Learning<br>
-        <input type="radio" name="q2" value="Reinforcement Learning">Reinforcement Learning<br>
-        <input type="radio" name="q2" value="Supervised Learning">Supervised Learning<br>
-    </div>
+    <div id="result"></div>
+    <div id="leaderboard"></div>
 
-    <!-- Q3 -->
-    <div class="question">
-        <p>3. Which company developed the GPT series of models?</p>
-        <input type="radio" name="q3" value="Google">Google<br>
-        <input type="radio" name="q3" value="OpenAI">OpenAI<br>
-        <input type="radio" name="q3" value="Facebook">Facebook<br>
-        <input type="radio" name="q3" value="Amazon">Amazon<br>
-    </div>
-
-    <!-- Q4 -->
-    <div class="question">
-        <p>4. Which of the following tasks is AI NOT commonly used for?</p>
-        <input type="checkbox" name="q4" value="Email Filtering">Email Filtering<br>
-        <input type="checkbox" name="q4" value="Human Emotion Simulation">Human Emotion Simulation<br>
-        <input type="checkbox" name="q4" value="Playing Chess">Playing Chess<br>
-        <input type="checkbox" name="q4" value="Generating Art">Generating Art<br>
-    </div>
-
-    <!-- Q5 -->
-    <div class="question">
-        <p>5. Which algorithm is often used in training deep learning models?</p>
-        <input type="radio" name="q5" value="Backpropagation">Backpropagation<br>
-        <input type="radio" name="q5" value="DFS">DFS (Depth-First Search)<br>
-        <input type="radio" name="q5" value="Genetic Algorithm">Genetic Algorithm<br>
-        <input type="radio" name="q5" value="Bellman-Ford">Bellman-Ford<br>
-    </div>
-
-    <button onclick="submitQuiz()">Submit</button>
     <script src="quiz.js"></script>
+    <script>
+        const supabaseUrl = 'https://airfdancdzkaxebikanm.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpcmZkYW5jZHprYXhlYmlrYW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2NjQ0OTksImV4cCI6MjAwNzI0MDQ5OX0.GnIe2Zdg3d5Vv00a201j7GKilZ0pGicrcgDvRd5sPGM';
+        const supabase = Supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        async function submitQuiz() {
+            // Assuming you've already calculated the score in your submitQuiz function
+            const username = prompt("Enter your name for the leaderboard:");
+            
+            let { data, error } = await supabase
+                .from('scores')
+                .insert([{ name: username, score: score }]);
+            
+            if (error) {
+                console.error("Error inserting score:", error);
+            }
+        }
+
+        async function displayLeaderboard() {
+            let { data, error } = await supabase
+                .from('scores')
+                .select('*')
+                .order('score', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                console.error("Error fetching leaderboard:", error);
+                return;
+            }
+
+            var leaderboardHtml = "<h2>Leaderboard</h2><ul>";
+            for (let i = 0; i < data.length; i++) {
+                leaderboardHtml += `<li>${data[i].name} - ${data[i].score}</li>`;
+            }
+            leaderboardHtml += "</ul>";
+
+            document.getElementById("leaderboard").innerHTML = leaderboardHtml;
+        }
+    </script>
 </body>
 </html>
