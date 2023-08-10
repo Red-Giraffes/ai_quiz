@@ -14,10 +14,10 @@ const questions = [
         answers: [
             { text: 'Artificial Intelligence', correct: true },
             { text: 'Amazing Interface', correct: false },
-            ...
+            
         ]
     },
-    ...
+    
 ];
 // Additional questions here
 
@@ -43,8 +43,22 @@ function setNextQuestion() {
 
 // Function to show the current question
 function showQuestion(question) {
-    questionContainer.innerText = question.question;
-    // Add your logic to display the answer choices here
+    questionContainer.innerHTML = ''; // clear previous content
+    
+    const questionElem = document.createElement('div');
+    questionElem.innerText = question.question;
+    questionContainer.appendChild(questionElem);
+    
+    question.answers.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.innerText = answer.text;
+        btn.classList.add('btn');
+        if (answer.correct) {
+            btn.dataset.correct = answer.correct;
+        }
+        btn.addEventListener('click', selectAnswer);
+        questionContainer.appendChild(btn);
+    });
 }
 
 // Function to end the quiz
