@@ -30,6 +30,34 @@ function startQuiz() {
         setNextQuestion();
     });
     setNextQuestion();
+
+    function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    if (correct) {
+        score++;
+    }
+    // Optionally: remove all buttons or disable them to prevent multiple selections
+}
+
+function showQuestion(question) {
+    questionContainer.innerHTML = ''; // clear previous content
+    
+    const questionElem = document.createElement('div');
+    questionElem.innerText = question.question;
+    questionContainer.appendChild(questionElem);
+    
+    question.answers.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.innerText = answer.text;
+        btn.classList.add('btn');
+        if (answer.correct) {
+            btn.dataset.correct = answer.correct;
+        }
+        btn.addEventListener('click', selectAnswer);
+        questionContainer.appendChild(btn);
+    });
+}
 }
 
 // Function to set the next question
